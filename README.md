@@ -2,7 +2,8 @@ Enable TCP port 2375 for external connection to Docker
 ------------------------------------------------------
 
 See this [issue](https://github.com/moby/moby/issues/25471).  
-Docker best practise to [Control and configure Docker with systemd](https://docs.docker.com/engine/admin/systemd/#/custom-docker-daemon-options).  
+Docker documentation [Troubleshoot the daemon](https://docs.docker.com/config/daemon/#troubleshoot-conflicts-between-the-daemonjson-and-startup-scripts).
+From [source](https://gist.github.com/styblope/dc55e0ad2a9848f2cc3307d4819d819f)
 
 1. Create `daemon.json` file in `/etc/docker`:
 
