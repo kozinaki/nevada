@@ -1,5 +1,6 @@
 scalitka/app
-scalitka/project
+scalitka/project/project
+scalitka/project/build.properties
 scalitka/.idea
 scalitka/target
 scalitka/src/main/resources/application.properties
