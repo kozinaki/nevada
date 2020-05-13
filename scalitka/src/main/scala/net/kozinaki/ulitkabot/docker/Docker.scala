@@ -3,6 +3,7 @@ package net.kozinaki.ulitkabot.docker
 import java.util
 
 import com.github.dockerjava.api.DockerClient
+import com.github.dockerjava.api.exception.DockerException
 import com.github.dockerjava.api.model.{Container, Info}
 import com.github.dockerjava.core.DockerClientBuilder
 
@@ -33,11 +34,23 @@ class Docker {
   }
 
   def stopContainer(name: String): Unit = {
-    getContainers.get(name).map((container: Container) => dockerClient.stopContainerCmd(container.getId).exec)
+    getContainers.get(name).map((container: Container) => {
+      try return dockerClient.stopContainerCmd(container.getId).exec
+      catch {
+        case e: Exception =>
+          println(e)
+      }
+    })
   }
 
   def startContainer(name: String): Unit = {
-    getContainers.get(name).map((container: Container) => dockerClient.startContainerCmd(container.getId).exec)
+    getContainers.get(name).map((container: Container) => {
+      try return dockerClient.startContainerCmd(container.getId).exec
+      catch {
+        case e: Exception =>
+          println(e)
+      }
+    })
   }
 
   def getNewContainers(dockerClient: DockerClient): Map[String, Container] = {

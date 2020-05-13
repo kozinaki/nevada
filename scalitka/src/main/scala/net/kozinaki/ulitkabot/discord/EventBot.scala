@@ -3,7 +3,7 @@ package net.kozinaki.ulitkabot.discord
 import net.dv8tion.jda.api.entities.{Message, MessageChannel}
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import net.kozinaki.ulitkabot.docker.Docker
+import net.kozinaki.ulitkabot.docker.{Docker, Handler}
 import net.kozinaki.ulitkabot.exception.ParseCommandException
 //import net.kozinaki.nevada.discordbot.exception.ParseCommandException;
 //import net.kozinaki.nevada.docker.DockerAPI;
@@ -32,9 +32,9 @@ class EventBot extends ListenerAdapter {
 
         var data: Data = parse(msg.getContentRaw());
         data.getCommand() match {
-            case LIST => sendList(event)
-             case STOP => stop(data.getData);
-             case START => start(data.getData);
+            case LIST => list(event)
+            case STOP => stop(data);
+            case START => start(data);
             case UNKNOWN => ;
         }
     }
@@ -48,9 +48,11 @@ class EventBot extends ListenerAdapter {
         return new Data;
     }
 
-    def sendList(event: MessageReceivedEvent) {
-        var channel: MessageChannel = event.getChannel();
-        channel.sendMessage(getList()).queue();
+    def list(event: MessageReceivedEvent) {
+        Handler.execute("!list", "", _ => {
+            var channel: MessageChannel = event.getChannel();
+            channel.sendMessage(getList()).queue();
+        });
     }
 
     def getList(): String = {
@@ -59,11 +61,21 @@ class EventBot extends ListenerAdapter {
         return containersName.stream.reduce((one: String, two: String) => one.concat(";\n").concat(two)).get();
     }
 
-    def stop(name: String): Unit = {
-        dockerAPI.stopContainer(name);
+    def stop(data: Data): Unit = {
+        if (data.getData == null) {
+            return
+        }
+        Handler.execute(data.getCommand().toString, data.getData, _ => {
+            dockerAPI.stopContainer(data.getData);
+        })
     }
-    def start(name: String): Unit = {
-        dockerAPI.startContainer(name);
+    def start(data: Data): Unit = {
+        if (data.getData == null) {
+            return
+        }
+        Handler.execute(data.getCommand().toString, data.getData, _ => {
+            dockerAPI.startContainer(data.getData);
+        });
     }
 
     def getContainers(): List[String] = {

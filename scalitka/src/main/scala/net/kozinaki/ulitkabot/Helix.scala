@@ -47,8 +47,7 @@ object Helix {
   private def sleep(time: Long): Unit = {
     try Thread.sleep(time)
     catch {
-      case e: InterruptedException =>
-        Thread.currentThread.interrupt()
+      case e: InterruptedException => Thread.currentThread.interrupt()
     }
   }
 
