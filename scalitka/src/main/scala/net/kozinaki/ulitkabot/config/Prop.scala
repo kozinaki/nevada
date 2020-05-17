@@ -11,6 +11,7 @@ object Prop {
 
   var dockerSocket: String = null;
   var discordToken: String = null;
+  var containerPattern: String = null;
 
   {
     val properties: Properties = new Properties()
@@ -27,10 +28,13 @@ object Prop {
 
     dockerSocket = properties.getProperty("docker_socket")
     discordToken = properties.getProperty("discord_token")
+    containerPattern = properties.getProperty("docker_container_pattern")
   }
 
   def getDockerSocket(): String = dockerSocket;
 
   def getDiscordToken(): String = discordToken;
+
+  def getContainerPattern(): String = containerPattern;
 
 }

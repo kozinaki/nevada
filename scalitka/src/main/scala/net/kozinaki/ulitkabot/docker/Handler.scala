@@ -1,9 +1,7 @@
 package net.kozinaki.ulitkabot.docker
 
 import java.util.concurrent.{BlockingQueue, LinkedBlockingQueue, TimeUnit}
-import java.util.function.Consumer
 
-import scala.collection.mutable
 import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
@@ -11,8 +9,8 @@ import scala.concurrent.duration.Duration
 object Handler {
 
   val TAG: String = "[Handler] ";
-  val tasks = new mutable.HashSet[String]()
-  var queue: LinkedBlockingQueue[_] = new LinkedBlockingQueue();
+  val tasks = java.util.Collections.newSetFromMap(new java.util.concurrent.ConcurrentHashMap[String, java.lang.Boolean])
+  var queue: BlockingQueue[_] = new LinkedBlockingQueue();
 
   def execute(id: String, data: String, func: Function[Unit, Unit]): Unit = {
     println(TAG + "task " + id + " " + data + " already executing: " + tasks.contains(data));
