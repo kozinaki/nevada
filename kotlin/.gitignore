@@ -1,7 +1,9 @@
 .idea/
 .gradle/
+gradle/
 build/
 HelloWorld/build/
 jOOQ/build/
+jOOQ/src/main/java/
 gradlew
 gradlew.bat
