@@ -1,0 +1,46 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'application'
+    id "nu.studer.jooq" version "$jooq_plugin_version"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "org.jooq:jooq:$jooq_version"
+    implementation "org.jooq:jooq-meta:$jooq_version"
+    implementation "org.postgresql:postgresql:$postgresql_version"
+    jooqRuntime "org.postgresql:postgresql:$postgresql_version"
+}
+
+compileJava.options.encoding = "UTF-8"
+
+jooq {
+    myConfigurationName(sourceSets.main) {
+        jdbc {
+            driver = 'org.postgresql.Driver'
+            url = "${project.properties.getOrDefault('dbUrl', 'jdbc:postgresql://localhost:5432/jooq')}"
+            user = "${project.properties.getOrDefault('dbUser', 'postgres')}"
+            password = "${project.properties.getOrDefault('dbPassword', 'postgres')}"
+        }
+        generator {
+            database {
+                name = 'org.jooq.meta.postgres.PostgresDatabase'
+                // Whitespace is ignored and comments are possible.
+                includes = '.*'
+                inputSchema = 'public'
+            }
+            generate {
+            }
+            target {
+                packageName = 'net.kozinaki.kt.jooq.public'
+
+                // The destination directory of your generated classes
+                directory = 'src/main/resources/net/kozinaki/jooq/generated'
+            }
+        }
+    }
+}

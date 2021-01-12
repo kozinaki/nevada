@@ -1,0 +1,7 @@
+.idea/
+.gradle/
+build/
+HelloWorld/build/
+jOOQ/build/
+gradlew
+gradlew.bat

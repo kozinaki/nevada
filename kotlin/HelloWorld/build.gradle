@@ -1,0 +1,24 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'application'
+}
+
+group 'net.kozinaki.kt.helloworld'
+version '1.0-SNAPSHOT'
+
+mainClassName = 'net.kozinaki.kt.helloworld.HelloWorldKt'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+}
+
+/*
+defaultTasks 'clean', 'run'
+
+task run(overwrite: true) {
+
+}*/
