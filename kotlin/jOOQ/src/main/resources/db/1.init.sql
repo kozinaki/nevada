@@ -1,35 +1,35 @@
 CREATE TABLE language (
-  id              NUMBER(7)     NOT NULL PRIMARY KEY,
+  id              INTEGER     NOT NULL PRIMARY KEY,
   cd              CHAR(2)       NOT NULL,
-  description     VARCHAR2(50)
+  description     TEXT
 );
 
 CREATE TABLE author (
-  id              NUMBER(7)     NOT NULL PRIMARY KEY,
-  first_name      VARCHAR2(50),
-  last_name       VARCHAR2(50)  NOT NULL,
+  id              INTEGER     NOT NULL PRIMARY KEY,
+  first_name      TEXT,
+  last_name       TEXT  NOT NULL,
   date_of_birth   DATE,
-  year_of_birth   NUMBER(7),
-  distinguished   NUMBER(1)
+  year_of_birth   INTEGER,
+  distinguished   INTEGER
 );
 
 CREATE TABLE book (
-  id              NUMBER(7)     NOT NULL PRIMARY KEY,
-  author_id       NUMBER(7)     NOT NULL,
-  title           VARCHAR2(400) NOT NULL,
-  published_in    NUMBER(7)     NOT NULL,
-  language_id     NUMBER(7)     NOT NULL,
+  id              INTEGER     NOT NULL PRIMARY KEY,
+  author_id       INTEGER     NOT NULL,
+  title           TEXT NOT NULL,
+  published_in    INTEGER     NOT NULL,
+  language_id     INTEGER     NOT NULL,
 
   CONSTRAINT fk_book_author     FOREIGN KEY (author_id)   REFERENCES author(id),
   CONSTRAINT fk_book_language   FOREIGN KEY (language_id) REFERENCES language(id)
 );
 
 CREATE TABLE book_store (
-  name            VARCHAR2(400) NOT NULL UNIQUE
+  name            TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE book_to_book_store (
-  name            VARCHAR2(400) NOT NULL,
+  name            TEXT NOT NULL,
   book_id         INTEGER       NOT NULL,
   stock           INTEGER,
 

@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.postgresql:postgresql:$postgresql_version"
+    }
+}
+
+import groovy.sql.Sql
+
+gradle.class.classLoader.addURL(buildscript.configurations.classpath.find { it.name.startsWith('postgresql') }.toURI().toURL())
+
+def db = [
+        url: 'jdbc:postgresql://localhost:5432/jooq',
+        user: 'postgres',
+        password: 'postgres',
+        driver: 'org.postgresql.Driver'
+]
+def sql = Sql.newInstance(db.url, db.user, db.password, db.driver)
+
+def sqlDir = file project.projectDir.toString().concat('/src/main/resources/db/')
+
+task initDB() {
+    doLast {
+        fileTree(dir: sqlDir, include: "**.sql", exclude: ["delete.sql"]).each {
+            sql.execute(it.text)
+        }
+    }
+}
+
+task deleteDB() {
+    doLast {
+        fileTree(dir: sqlDir, include: "**.sql", exclude: ["1.init.sql", "2.update.sql"]).each {
+            sql.execute(it.text)
+        }
+    }
+}
