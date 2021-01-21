@@ -8,16 +8,21 @@ import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 
+fun main(args: Array<String>) {
+    embeddedServer(Netty, 8080, watchPaths = listOf("AppKt"), module = Application::module).start()
+}
+
 fun Application.module() {
     install(DefaultHeaders)
     install(CallLogging)
     install(Routing) {
         get("/") {
-            call.respondText("Nu Hello World kak bi!", ContentType.Text.Html)
+            call.respondText("Lets hello world begin!", ContentType.Text.Html)
+        }
+        get("/rabbit") {
+            call.respondText("Secret word sent!", ContentType.Text.Html)
+            sayHello(call.request.queryParameters["secret"]);
         }
     }
 }
 
-fun main(args: Array<String>) {
-    embeddedServer(Netty, 8080, watchPaths = listOf("AppKt"), module = Application::module).start()
-}
