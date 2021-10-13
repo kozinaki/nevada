@@ -1,0 +1,3 @@
+rootProject.name = 'nevada'
+include 'HelloWorld'
+include 'concurrent'

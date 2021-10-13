@@ -1,0 +1,8 @@
+.idea/
+.gradle/
+gradle/
+build/
+HelloWorld/build/
+concurrent/build/
+gradlew
+gradlew.bat
